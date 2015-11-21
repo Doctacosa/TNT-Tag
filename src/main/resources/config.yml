@@ -1,0 +1,31 @@
+# ############################################################
+# # +------------------------------------------------------+ #
+# # |                TNT Tag Configuration                 | #
+# # +------------------------------------------------------+ #
+# ############################################################
+BroadcastTimes:
+- '1'
+- '2'
+- '3'
+- '4'
+- '5'
+- '10'
+- '15'
+- '20'
+- '30'
+- '60'
+- '120'
+checkforupdates: true
+AllowedCommands:
+- time
+Speed:
+  Players: 2
+  TNTs: 4
+minplayers: 12
+maxplayers: 24
+usepermissions: false
+signs:
+  line1: '&8[&cTNT Tag&8]:'
+  line2: join
+  line3: '{arena}'
+  line4: ignore
