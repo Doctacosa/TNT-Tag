@@ -8,18 +8,20 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import com.minebone.tnttag.core.TNTTag;
 import com.minebone.tnttag.files.GameData;
 import com.minebone.tnttag.files.Messages;
 import com.minebone.tnttag.util.Arena;
 import com.minebone.tnttag.util.Message;
 
 public class ArenaManager {
-	private static ArenaManager am = new ArenaManager();
+	
+	private TNTTag plugin;
 
-	public static ArenaManager getManager() {
-		return am;
+	public ArenaManager(TNTTag plugin) {
+		this.plugin = plugin;
 	}
-
+	
 	public Arena getArena(String name) {
 		for (Arena a : Arena.arenaObjects) {
 			if (a.getName().equalsIgnoreCase(name)) {
@@ -45,16 +47,16 @@ public class ArenaManager {
 					if (arena.getLobbyLocation() != null) {
 						player.teleport(arena.getLobbyLocation());
 
-						arena.getPlayers().add(player.getName());
+						arena.getPlayers().add(player);
 
-						arena.getAlivePlayers().add(player.getName());
+						arena.getAlivePlayers().add(player);
 						int playersLeft = arena.getMinPlayers() - arena.getPlayers().size();
 
 						arena.sendMessage(Messages.getMessage(Message.joinedGame).replace("{player}", player.getName()).replace("{size}", arena.getPlayers().size() + "").replace("{max_players}", arena.getMaxPlayers() + ""));
 						if ((playersLeft == 0) && (!arena.runningCountdown())) {
 							startArena(arenaName);
 						}
-						SignManager.getManager().updateSigns(arenaName);
+						plugin.getSignManager().updateSigns(arenaName);
 					}
 				} else {
 					player.sendMessage(ChatColor.RED + Messages.getMessage(Message.arenaAlreadyStarted));
@@ -67,10 +69,10 @@ public class ArenaManager {
 		}
 	}
 
-	public boolean isInGame(Player player) {
+	public boolean isInGame(Player player1) {
 		for (Arena arena : Arena.arenaObjects) {
-			for(String s : arena.getPlayers()){
-				if(player.getName().equalsIgnoreCase(s)){
+			for (Player player : arena.getPlayers()) {
+				if (player.getName().equalsIgnoreCase(player1.getName())) {
 					return true;
 				}
 			}
@@ -78,10 +80,10 @@ public class ArenaManager {
 		return false;
 	}
 
-	public static Arena get(Player player) {
+	public Arena get(Player player1) {
 		for (Arena arena : Arena.arenaObjects) {
-			for(String s : arena.getPlayers()){
-				if(player.getName().equalsIgnoreCase(s)){
+			for (Player player : arena.getPlayers()) {
+				if (player.getName().equalsIgnoreCase(player1.getName())) {
 					return arena;
 				}
 			}
@@ -89,10 +91,10 @@ public class ArenaManager {
 		return null;
 	}
 
-	public boolean isTNT(Player player) {
+	public boolean isTNT(Player player1) {
 		for (Arena arena : Arena.arenaObjects) {
-			for(String s : arena.getTNTPlayers()){
-				if(player.getName().equalsIgnoreCase(s)){
+			for (Player player : arena.getTNTPlayers()) {
+				if (player.getName().equalsIgnoreCase(player1.getName())) {
 					return true;
 				}
 			}
@@ -106,14 +108,14 @@ public class ArenaManager {
 		player.getInventory().clear();
 		InventoryManager.restoreInventory(player);
 
-		arena.getPlayers().remove(player.getName());
-		if (arena.getTNTPlayers().contains(player.getName())) {
-			arena.getTNTPlayers().remove(player.getName());
+		arena.getPlayers().remove(player);
+		if (arena.getTNTPlayers().contains(player)) {
+			arena.getTNTPlayers().remove(player);
 		}
-		if (arena.getAlivePlayers().contains(player.getName())) {
-			arena.getAlivePlayers().remove(player.getName());
+		if (arena.getAlivePlayers().contains(player)) {
+			arena.getAlivePlayers().remove(player);
 		}
-		SignManager.getManager().updateSigns(arena.getName());
+		plugin.getSignManager().updateSigns(arena.getName());
 
 		arena.removeBoard(player);
 		if (arena.getPlayers().size() == 1) {
@@ -121,7 +123,7 @@ public class ArenaManager {
 				arena.sendMessage("The last player left!");
 				endArena(arena);
 			} else {
-				CountdownManager.cancelTask(arena);
+				arena.getCountdownManager().cancelTask();
 			}
 		}
 	}
@@ -129,22 +131,22 @@ public class ArenaManager {
 	public void removeTNTPlayer(Player player) {
 		Arena arena = get(player);
 
-		arena.getTNTPlayers().remove(player.getName());
-		arena.getAlivePlayers().add(player.getName());
+		arena.getTNTPlayers().remove(player);
+		arena.getAlivePlayers().add(player);
 	}
 
 	public void addTNTPlayer(Player player) {
 		Arena arena = get(player);
 
-		arena.getTNTPlayers().add(player.getName());
-		arena.getAlivePlayers().remove(player.getName());
+		arena.getTNTPlayers().add(player);
+		arena.getAlivePlayers().remove(player);
 	}
 
 	public void startArena(String arenaName) {
 		if (getArena(arenaName) != null) {
 			Arena arena = getArena(arenaName);
 			if (arena.getPlayers().size() >= 2) {
-				CountdownManager.startGame(50, arena);
+				arena.getCountdownManager().startGame(50);
 			}
 		}
 	}
@@ -153,31 +155,31 @@ public class ArenaManager {
 		Arena arena = getArena(arenaName);
 		if (arena.getPlayers().size() >= 2) {
 			if (!arena.isInGame()) {
-				MessageManager.getInstance().sendMessage(player, Messages.getMessage(Message.forceStarting));
-				CountdownManager.cancelTask(arena);
-				CountdownManager.startGame(10, arena);
+				plugin.getMessageManager().sendMessage(player, Messages.getMessage(Message.forceStarting));
+				arena.getCountdownManager().cancelTask();
+				arena.getCountdownManager().startGame(10);
 			} else {
-				MessageManager.getInstance().sendErrorMessage(player, Messages.getMessage(Message.forceStartAlreadyStarted));
+				plugin.getMessageManager().sendErrorMessage(player, Messages.getMessage(Message.forceStartAlreadyStarted));
 			}
 		} else {
-			MessageManager.getInstance().sendErrorMessage(player, Messages.getMessage(Message.minTwoPlayers));
+			plugin.getMessageManager().sendErrorMessage(player, Messages.getMessage(Message.minTwoPlayers));
 		}
 	}
 
 	public void forceEndArena(String arenaName, Player player) {
 		Arena arena = getArena(arenaName);
 		if (arena.isInGame()) {
-			MessageManager.getInstance().sendMessage(player, Messages.getMessage(Message.forceEnding));
+			plugin.getMessageManager().sendMessage(player, Messages.getMessage(Message.forceEnding));
 			arena.sendMessage(Messages.getMessage(Message.forceEndKicked));
 			endArena(arena);
 		} else {
-			MessageManager.getInstance().sendErrorMessage(player, Messages.getMessage(Message.arenaHasAlreadyStarted));
+			plugin.getMessageManager().sendErrorMessage(player, Messages.getMessage(Message.arenaHasAlreadyStarted));
 		}
 	}
 
 	public void endArena(Arena arena) {
 		if (arena.runningCountdown()) {
-			CountdownManager.cancelTask(arena);
+			arena.getCountdownManager().cancelTask();
 		}
 		arena.endArena();
 	}
@@ -210,19 +212,19 @@ public class ArenaManager {
 				float endyaw = fc.getInt("arenas." + keys + ".spec.yaw");
 				Location endLocation = new Location(endWorld, endX, endY, endZ, endyaw, endpitch);
 
-				int maxPlayers = FileManager.getInstance().getMaxPlayers();
-				int minPlayers = FileManager.getInstance().getMinPlayers();
+				int maxPlayers = plugin.getFileManager().getMaxPlayers();
+				int minPlayers = plugin.getFileManager().getMinPlayers();
 
-				new Arena(keys, joinLocation, startLocation, endLocation, maxPlayers, minPlayers);
+				new Arena(plugin, keys, joinLocation, startLocation, endLocation, maxPlayers, minPlayers);
 			}
 		}
 	}
 
 	public void createArena(String arenaName, Location joinLocation, Location startLocation, Location endLocation) {
-		int maxPlayers = FileManager.getInstance().getMaxPlayers();
-		int minPlayers = FileManager.getInstance().getMinPlayers();
+		int maxPlayers = plugin.getFileManager().getMaxPlayers();
+		int minPlayers = plugin.getFileManager().getMinPlayers();
 
-		new Arena(arenaName, joinLocation, startLocation, endLocation, maxPlayers, minPlayers);
+		new Arena(plugin, arenaName, joinLocation, startLocation, endLocation, maxPlayers, minPlayers);
 
 		FileConfiguration fc = GameData.getGameData();
 
@@ -275,6 +277,6 @@ public class ArenaManager {
 		fc.set(path + "maxPlayers", Integer.valueOf(maxPlayers));
 		fc.set(path + "minPlayers", Integer.valueOf(minPlayers));
 
-		FileManager.getInstance().saveConfig();
+		plugin.getFileManager().saveConfig();
 	}
 }

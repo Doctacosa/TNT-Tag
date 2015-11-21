@@ -11,18 +11,22 @@ import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
+import com.minebone.tnttag.core.TNTTag;
+import com.minebone.tnttag.managers.CountdownManager;
 import com.minebone.tnttag.managers.InventoryManager;
-import com.minebone.tnttag.managers.MessageManager;
 
 public class Arena {
+
 	public static ArrayList<Arena> arenaObjects = new ArrayList<Arena>();
+	private TNTTag plugin;
+	private CountdownManager countdownManager;
 	private Location lobbyLocation;
 	private Location arenaLocation;
 	private Location spectatorLocation;
 	private String name;
-	private ArrayList<String> players = new ArrayList<String>();
-	private ArrayList<String> TNTPlayers = new ArrayList<String>();
-	private ArrayList<String> AlivePlayers = new ArrayList<String>();
+	private ArrayList<Player> players = new ArrayList<Player>();
+	private ArrayList<Player> TNTPlayers = new ArrayList<Player>();
+	private ArrayList<Player> AlivePlayers = new ArrayList<Player>();
 	private int maxPlayers;
 	private int minPlayers;
 	private int taskID;
@@ -30,16 +34,16 @@ public class Arena {
 	private boolean inGame = false;
 	private boolean runningCountdown = false;
 
-	public Arena(String arenaName, Location joinLocation,
-			Location startLocation, Location endLocation, int maxPlayers,
-			int minPlayers) {
+	public Arena(TNTTag plugin, String arenaName, Location joinLocation, Location startLocation, Location endLocation, int maxPlayers, int minPlayers) {
+		this.plugin = plugin;
 		this.name = arenaName;
 		this.lobbyLocation = joinLocation;
 		this.arenaLocation = startLocation;
 		this.spectatorLocation = endLocation;
 		this.maxPlayers = maxPlayers;
 		this.minPlayers = minPlayers;
-
+		this.countdownManager = new CountdownManager(plugin, this);
+		
 		arenaObjects.add(this);
 	}
 
@@ -91,15 +95,15 @@ public class Arena {
 		this.minPlayers = minPlayers;
 	}
 
-	public ArrayList<String> getPlayers() {
+	public ArrayList<Player> getPlayers() {
 		return this.players;
 	}
 
-	public ArrayList<String> getTNTPlayers() {
+	public ArrayList<Player> getTNTPlayers() {
 		return this.TNTPlayers;
 	}
 
-	public ArrayList<String> getAlivePlayers() {
+	public ArrayList<Player> getAlivePlayers() {
 		return this.AlivePlayers;
 	}
 
@@ -126,18 +130,15 @@ public class Arena {
 		this.inGame = inGame;
 	}
 
-	@SuppressWarnings("deprecation")
 	public void sendMessage(String message) {
-		for (String s : this.players) {
-			MessageManager.getInstance().sendMessage(Bukkit.getPlayer(s), message);
+		for (Player player : this.players) {
+			plugin.getMessageManager().sendMessage(player, message);
 		}
 	}
 
 	public void endArena() {
-		for (String s : this.players) {
-			@SuppressWarnings("deprecation")
-			Player player = Bukkit.getPlayer(s);
-
+		setInGame(false);
+		for (Player player : this.players) {
 			InventoryManager.restoreInventory(player);
 
 			getPlayers().remove(player.getName());
@@ -170,20 +171,23 @@ public class Arena {
 	public void setSeconds(int seconds) {
 		this.seconds = seconds;
 	}
+	
+	public CountdownManager getCountdownManager() {
+		return countdownManager;
+	}
 
 	ScoreboardManager manager = Bukkit.getScoreboardManager();
 	Scoreboard board = this.manager.getNewScoreboard();
 	Objective objective = this.board.registerNewObjective("lives", "dummy");
 
-	@SuppressWarnings("deprecation")
 	public void setBoard(Player player, int time) {
 		this.objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 		this.objective.setDisplayName("TNT Tag");
 
-		Score money = this.objective.getScore(Bukkit.getOfflinePlayer("Players:"));
+		Score money = this.objective.getScore("Players:");
 		money.setScore(this.players.size());
 
-		Score Tags = this.objective.getScore(Bukkit.getOfflinePlayer("Time:"));
+		Score Tags = this.objective.getScore("Time:");
 		Tags.setScore(time);
 		player.setScoreboard(this.board);
 	}

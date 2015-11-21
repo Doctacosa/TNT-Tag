@@ -5,6 +5,7 @@ import org.bukkit.permissions.Permission;
 import com.minebone.tnttag.core.TNTTag;
 
 public class Permissions {
+	
 	public Permission all = new Permission("tnttag.*");
 	public Permission join = new Permission("tnttag.join");
 	public Permission leave = new Permission("tnttag.leave");
@@ -28,48 +29,48 @@ public class Permissions {
 	public Permission update = new Permission("tnttag.update");
 
 	public void loadPermissions(TNTTag plugin) {
-		plugin.getServer().getPluginManager().addPermission(new Permissions().all);
-		plugin.getServer().getPluginManager().addPermission(new Permissions().leave);
-		plugin.getServer().getPluginManager().addPermission(new Permissions().join);
-		plugin.getServer().getPluginManager().addPermission(new Permissions().spectate);
-		plugin.getServer().getPluginManager().addPermission(new Permissions().checkCoins);
-		plugin.getServer().getPluginManager().addPermission(new Permissions().forceStart);
-		plugin.getServer().getPluginManager().addPermission(new Permissions().remove);
-		plugin.getServer().getPluginManager().addPermission(new Permissions().resetStats);
-		plugin.getServer().getPluginManager().addPermission(new Permissions().checkStats);
-		plugin.getServer().getPluginManager().addPermission(new Permissions().setArena);
-		plugin.getServer().getPluginManager().addPermission(new Permissions().setLobby);
-		plugin.getServer().getPluginManager().addPermission(new Permissions().setSpec);
-		plugin.getServer().getPluginManager().addPermission(new Permissions().transferCoins);
-		plugin.getServer().getPluginManager().addPermission(new Permissions().reload);
-		plugin.getServer().getPluginManager().addPermission(new Permissions().createArena);
-		plugin.getServer().getPluginManager().addPermission(new Permissions().listArenas);
-		plugin.getServer().getPluginManager().addPermission(new Permissions().deleteArena);
-		plugin.getServer().getPluginManager().addPermission(new Permissions().createSign);
-		plugin.getServer().getPluginManager().addPermission(new Permissions().update);
-		plugin.getServer().getPluginManager().addPermission(new Permissions().deleteSign);
+		plugin.getServer().getPluginManager().addPermission(all);
+		plugin.getServer().getPluginManager().addPermission(leave);
+		plugin.getServer().getPluginManager().addPermission(join);
+		plugin.getServer().getPluginManager().addPermission(spectate);
+		plugin.getServer().getPluginManager().addPermission(checkCoins);
+		plugin.getServer().getPluginManager().addPermission(forceStart);
+		plugin.getServer().getPluginManager().addPermission(remove);
+		plugin.getServer().getPluginManager().addPermission(resetStats);
+		plugin.getServer().getPluginManager().addPermission(checkStats);
+		plugin.getServer().getPluginManager().addPermission(setArena);
+		plugin.getServer().getPluginManager().addPermission(setLobby);
+		plugin.getServer().getPluginManager().addPermission(setSpec);
+		plugin.getServer().getPluginManager().addPermission(transferCoins);
+		plugin.getServer().getPluginManager().addPermission(reload);
+		plugin.getServer().getPluginManager().addPermission(createArena);
+		plugin.getServer().getPluginManager().addPermission(listArenas);
+		plugin.getServer().getPluginManager().addPermission(deleteArena);
+		plugin.getServer().getPluginManager().addPermission(createSign);
+		plugin.getServer().getPluginManager().addPermission(update);
+		plugin.getServer().getPluginManager().addPermission(deleteSign);
 	}
 
 	public void unloadPermissions(TNTTag plugin) {
-		plugin.getServer().getPluginManager().removePermission(new Permissions().all);
-		plugin.getServer().getPluginManager().removePermission(new Permissions().join);
-		plugin.getServer().getPluginManager().removePermission(new Permissions().leave);
-		plugin.getServer().getPluginManager().removePermission(new Permissions().spectate);
-		plugin.getServer().getPluginManager().removePermission(new Permissions().checkCoins);
-		plugin.getServer().getPluginManager().removePermission(new Permissions().forceStart);
-		plugin.getServer().getPluginManager().removePermission(new Permissions().remove);
-		plugin.getServer().getPluginManager().removePermission(new Permissions().checkStats);
-		plugin.getServer().getPluginManager().removePermission(new Permissions().resetStats);
-		plugin.getServer().getPluginManager().removePermission(new Permissions().setArena);
-		plugin.getServer().getPluginManager().removePermission(new Permissions().setLobby);
-		plugin.getServer().getPluginManager().removePermission(new Permissions().setSpec);
-		plugin.getServer().getPluginManager().removePermission(new Permissions().transferCoins);
-		plugin.getServer().getPluginManager().removePermission(new Permissions().reload);
-		plugin.getServer().getPluginManager().removePermission(new Permissions().createArena);
-		plugin.getServer().getPluginManager().removePermission(new Permissions().listArenas);
-		plugin.getServer().getPluginManager().removePermission(new Permissions().deleteArena);
-		plugin.getServer().getPluginManager().removePermission(new Permissions().createSign);
-		plugin.getServer().getPluginManager().removePermission(new Permissions().update);
-		plugin.getServer().getPluginManager().removePermission(new Permissions().deleteSign);
+		plugin.getServer().getPluginManager().removePermission(all);
+		plugin.getServer().getPluginManager().removePermission(join);
+		plugin.getServer().getPluginManager().removePermission(leave);
+		plugin.getServer().getPluginManager().removePermission(spectate);
+		plugin.getServer().getPluginManager().removePermission(checkCoins);
+		plugin.getServer().getPluginManager().removePermission(forceStart);
+		plugin.getServer().getPluginManager().removePermission(remove);
+		plugin.getServer().getPluginManager().removePermission(checkStats);
+		plugin.getServer().getPluginManager().removePermission(resetStats);
+		plugin.getServer().getPluginManager().removePermission(setArena);
+		plugin.getServer().getPluginManager().removePermission(setLobby);
+		plugin.getServer().getPluginManager().removePermission(setSpec);
+		plugin.getServer().getPluginManager().removePermission(transferCoins);
+		plugin.getServer().getPluginManager().removePermission(reload);
+		plugin.getServer().getPluginManager().removePermission(createArena);
+		plugin.getServer().getPluginManager().removePermission(listArenas);
+		plugin.getServer().getPluginManager().removePermission(deleteArena);
+		plugin.getServer().getPluginManager().removePermission(createSign);
+		plugin.getServer().getPluginManager().removePermission(update);
+		plugin.getServer().getPluginManager().removePermission(deleteSign);
 	}
 }

@@ -9,17 +9,19 @@ import org.bukkit.World;
 import org.bukkit.block.Sign;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import com.minebone.tnttag.core.TNTTag;
 import com.minebone.tnttag.files.Signs;
 import com.minebone.tnttag.util.TNTTagSign;
 
 public class SignManager {
+	
 	public HashMap<String, String> tempSign = new HashMap<String, String>();
-	public static SignManager manager = new SignManager();
-
-	public static SignManager getManager() {
-		return manager;
+	private TNTTag plugin;
+	
+	public SignManager(TNTTag plugin) {
+		this.plugin = plugin;
 	}
-
+	
 	public void updateSigns(String arena) {
 		for (TNTTagSign sign : TNTTagSign.signs) {
 			sign.update();
@@ -68,7 +70,7 @@ public class SignManager {
 		fc.set(path + "line.4", sign.getLine(3));
 		fc.set(path + "arena", arena);
 
-		new TNTTagSign(location, Integer.valueOf(id), arena, sign.getLine(0), sign.getLine(1), sign.getLine(2), sign.getLine(3));
+		new TNTTagSign(plugin, location, Integer.valueOf(id), arena, sign.getLine(0), sign.getLine(1), sign.getLine(2), sign.getLine(3));
 
 		Signs.save();
 	}
@@ -89,7 +91,7 @@ public class SignManager {
 				String line3 = fc.getString("signs." + id + ".line.3");
 				String line4 = fc.getString("signs." + id + ".line.4");
 
-				new TNTTagSign(location, Integer.valueOf(Integer.parseInt(id)), arena, line1, line2, line3, line4);
+				new TNTTagSign(plugin, location, Integer.valueOf(Integer.parseInt(id)), arena, line1, line2, line3, line4);
 			}
 		}
 	}

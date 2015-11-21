@@ -15,8 +15,7 @@ public class Signs {
 
 	public static void load() {
 		signs = getSignsData();
-		signs.options()
-				.header("############################################################\n# +------------------------------------------------------+ #\n# |                 TNT Tag Signs Data                   | #\n# +------------------------------------------------------+ #\n############################################################");
+		signs.options().header("############################################################\n# +------------------------------------------------------+ #\n# |                 TNT Tag Signs Data                   | #\n# +------------------------------------------------------+ #\n############################################################");
 
 		getSignsData().options().copyDefaults(true);
 		save();
@@ -43,8 +42,7 @@ public class Signs {
 		try {
 			signs.save(signsFile);
 		} catch (IOException ex) {
-			Logger.getLogger(JavaPlugin.class.getName()).log(Level.SEVERE,
-					"Could not save configFile to " + signsFile, ex);
+			Logger.getLogger(JavaPlugin.class.getName()).log(Level.SEVERE, "Could not save configFile to " + signsFile, ex);
 		}
 	}
 }

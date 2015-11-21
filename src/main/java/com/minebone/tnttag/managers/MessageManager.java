@@ -1,6 +1,5 @@
 package com.minebone.tnttag.managers;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -10,13 +9,13 @@ import com.minebone.tnttag.util.Arena;
 import com.minebone.tnttag.util.Message;
 
 public class MessageManager {
-	static MessageManager instance = new MessageManager();
-	String prefix = ChatColor.GRAY + "[" + ChatColor.RED + "TNT Tag" + ChatColor.GRAY + "]: ";
+	
+	private String prefix;
 
-	public static MessageManager getInstance() {
-		return instance;
+	public MessageManager() {
+		prefix = ChatColor.GRAY + "[" + ChatColor.RED + "TNT Tag" + ChatColor.GRAY + "]: ";
 	}
-
+	
 	public void sendErrorMessage(CommandSender sender, String errormsg) {
 		sender.sendMessage(ChatColor.DARK_RED + "Error:" + ChatColor.RED + " " + errormsg);
 	}
@@ -40,9 +39,7 @@ public class MessageManager {
 	}
 
 	public void sendWinMessage(Player player2, String s, Arena arena) {
-		for (String p : arena.getPlayers()) {
-			@SuppressWarnings("deprecation")
-			Player player = Bukkit.getPlayer(p);
+		for (Player player : arena.getPlayers()) {
 			player.sendMessage(Messages.getMessage(Message.lineBreak));
 			player.sendMessage(Messages.getMessage(Message.winMessage).replace("{player}", s));
 			player.sendMessage(Messages.getMessage(Message.lineBreak));

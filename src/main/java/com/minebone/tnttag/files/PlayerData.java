@@ -16,8 +16,7 @@ public class PlayerData {
 	public static void load() {
 		config = getPlayerData();
 
-		config.options()
-				.header("############################################################\n# +------------------------------------------------------+ #\n# |                 TNT Tag Player Data                  | #\n# +------------------------------------------------------+ #\n############################################################");
+		config.options().header("############################################################\n# +------------------------------------------------------+ #\n# |                 TNT Tag Player Data                  | #\n# +------------------------------------------------------+ #\n############################################################");
 
 		getPlayerData().options().copyDefaults(true);
 		save();
@@ -44,8 +43,7 @@ public class PlayerData {
 		try {
 			config.save(configFile);
 		} catch (IOException ex) {
-			Logger.getLogger(JavaPlugin.class.getName()).log(Level.SEVERE,
-					"Could not save configFile to " + configFile, ex);
+			Logger.getLogger(JavaPlugin.class.getName()).log(Level.SEVERE, "Could not save configFile to " + configFile, ex);
 		}
 	}
 }

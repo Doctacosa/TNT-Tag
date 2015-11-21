@@ -8,16 +8,19 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 
-import com.minebone.tnttag.managers.ArenaManager;
+import com.minebone.tnttag.core.TNTTag;
 
 public class TNTTagSign {
+	
 	public static ArrayList<TNTTagSign> signs = new ArrayList<TNTTagSign>();
 	private String arena;
 	private Location signLocation;
 	private Integer id;
+	private TNTTag plugin;
 	String[] signLines = new String[5];
 
-	public TNTTagSign(Location location, Integer id, String arena, String line1, String line2, String line3, String line4) {
+	public TNTTagSign(TNTTag plugin, Location location, Integer id, String arena, String line1, String line2, String line3, String line4) {
+		this.plugin = plugin;
 		this.arena = arena;
 		this.id = id;
 		this.signLocation = location;
@@ -43,7 +46,7 @@ public class TNTTagSign {
 			Sign sign = (Sign) b.getState();
 			for (int x = 0; x < 4; x++) {
 				if (getLine(Integer.valueOf(x + 1)) != null) {
-					sign.setLine(x, getLine(Integer.valueOf(x + 1)).replace("&", "§").replace("{max_players}", ArenaManager.getManager().getArena(this.arena).getMaxPlayers() + "").replace("{min_players}", ArenaManager.getManager().getArena(this.arena).getMinPlayers() + "").replace("{players}", ArenaManager.getManager().getArena(this.arena).getPlayers().size() + ""));
+					sign.setLine(x, getLine(Integer.valueOf(x + 1)).replace("&", "§").replace("{max_players}", plugin.getArenaManager().getArena(this.arena).getMaxPlayers() + "").replace("{min_players}", plugin.getArenaManager().getArena(this.arena).getMinPlayers() + "").replace("{players}", plugin.getArenaManager().getArena(this.arena).getPlayers().size() + ""));
 				}
 			}
 			sign.update();

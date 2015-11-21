@@ -1,8 +1,8 @@
 package com.minebone.tnttag.managers;
 
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.plugin.Plugin;
 
+import com.minebone.tnttag.core.TNTTag;
 import com.minebone.tnttag.files.Config;
 import com.minebone.tnttag.files.GameData;
 import com.minebone.tnttag.files.Messages;
@@ -10,13 +10,8 @@ import com.minebone.tnttag.files.PlayerData;
 import com.minebone.tnttag.files.Signs;
 
 public class FileManager {
-	static FileManager instance = new FileManager();
 
-	public static FileManager getInstance() {
-		return instance;
-	}
-
-	public void setup(Plugin p) {
+	public void setup(TNTTag p) {
 		if (!p.getDataFolder().exists()) {
 			p.getDataFolder().mkdir();
 		}
@@ -45,8 +40,8 @@ public class FileManager {
 		Signs.save();
 		Signs.reload();
 
-		SignManager.getManager().loadSigns();
-		ArenaManager.getManager().loadArenas();
+		p.getSignManager().loadSigns();
+		p.getArenaManager().loadArenas();
 	}
 
 	public FileConfiguration getConfig() {

@@ -5,14 +5,20 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerDropItemEvent;
 
-import com.minebone.tnttag.managers.ArenaManager;
+import com.minebone.tnttag.core.TNTTag;
 
 public class DropItemListener implements Listener {
+	
+	private TNTTag plugin;
+
+	public DropItemListener(TNTTag plugin) {
+		this.plugin = plugin;
+	}
 	
 	@EventHandler
 	public void Drop(PlayerDropItemEvent event) {
 		Player player = event.getPlayer();
-		if (ArenaManager.getManager().isInGame(player)) {
+		if (plugin.getArenaManager().isInGame(player)) {
 			event.setCancelled(true);
 		}
 	}

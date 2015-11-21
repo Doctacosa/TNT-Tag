@@ -15,17 +15,18 @@ import com.minebone.tnttag.listeners.PlayerKickListener;
 import com.minebone.tnttag.listeners.PlayerQuitListener;
 
 public class ListenerManager {
+	
 	public static void registerEvents(TNTTag plugin) {
 		PluginManager pm = plugin.getServer().getPluginManager();
-		pm.registerEvents(new BlockBreakListener(), plugin);
-		pm.registerEvents(new DropItemListener(), plugin);
-		pm.registerEvents(new EntityDamageByEntityListener(), plugin);
-		pm.registerEvents(new EntityDamageListener(), plugin);
-		pm.registerEvents(new FoodLevelChangeListener(), plugin);
-		pm.registerEvents(new InventoryClickListener(), plugin);
-		pm.registerEvents(new PlayerCommandPreprocessListener(), plugin);
-		pm.registerEvents(new PlayerInteractListener(), plugin);
-		pm.registerEvents(new PlayerQuitListener(), plugin);
-		pm.registerEvents(new PlayerKickListener(), plugin);
+		pm.registerEvents(new BlockBreakListener(plugin), plugin);
+		pm.registerEvents(new DropItemListener(plugin), plugin);
+		pm.registerEvents(new EntityDamageByEntityListener(plugin), plugin);
+		pm.registerEvents(new EntityDamageListener(plugin), plugin);
+		pm.registerEvents(new FoodLevelChangeListener(plugin), plugin);
+		pm.registerEvents(new InventoryClickListener(plugin), plugin);
+		pm.registerEvents(new PlayerCommandPreprocessListener(plugin), plugin);
+		pm.registerEvents(new PlayerInteractListener(plugin), plugin);
+		pm.registerEvents(new PlayerQuitListener(plugin), plugin);
+		pm.registerEvents(new PlayerKickListener(plugin), plugin);
 	}
 }

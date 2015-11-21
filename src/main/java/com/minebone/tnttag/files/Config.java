@@ -6,12 +6,11 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import com.minebone.tnttag.core.TNTTag;
 
 public class Config {
 	private static FileConfiguration config = null;
@@ -29,8 +28,7 @@ public class Config {
 	public static void load() {
 		config = getConfig();
 
-		config.options()
-				.header("############################################################\n# +------------------------------------------------------+ #\n# |                TNT Tag Configuration                 | #\n# +------------------------------------------------------+ #\n############################################################");
+		config.options().header("############################################################\n# +------------------------------------------------------+ #\n# |                TNT Tag Configuration                 | #\n# +------------------------------------------------------+ #\n############################################################");
 
 		config.addDefault("BroadcastTimes", Arrays.asList(broadcastTimes));
 		config.addDefault("checkforupdates", Boolean.valueOf(true));
@@ -70,19 +68,18 @@ public class Config {
 		try {
 			config.save(configFile);
 		} catch (IOException ex) {
-			Logger.getLogger(JavaPlugin.class.getName()).log(Level.SEVERE,
-					"Could not save configFile to " + configFile, ex);
+			Logger.getLogger(JavaPlugin.class.getName()).log(Level.SEVERE, "Could not save configFile to " + configFile, ex);
 		}
 	}
 
 	public static Integer getSpeed(PlayerType type) {
 		int speed = 1;
 		switch (type) {
-		case Player:
-			speed = getConfig().getInt("Speed.Players") - 1;
-			break;
-		case TNT:
-			speed = getConfig().getInt("Speed.TNTs") - 1;
+			case Player:
+				speed = getConfig().getInt("Speed.Players") - 1;
+				break;
+			case TNT:
+				speed = getConfig().getInt("Speed.TNTs") - 1;
 		}
 		return Integer.valueOf(speed);
 	}
@@ -99,9 +96,7 @@ public class Config {
 	public static void executeRoundWinCommand(Player player) {
 		if (getConfig().getBoolean("RoundWinCommad")) {
 			for (String s : getConfig().getStringList("RoundWinCommands")) {
-				TNTTag.main.getServer().dispatchCommand(
-						TNTTag.main.getServer().getConsoleSender(),
-						s.replace("{player}", player.getName()));
+				Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), s.replace("{player}", player.getName()));
 			}
 		}
 	}
@@ -109,9 +104,7 @@ public class Config {
 	public static void executeGameWinCommand(Player player) {
 		if (getConfig().getBoolean("GameWinCommad")) {
 			for (String s : getConfig().getStringList("GameWinCommands")) {
-				TNTTag.main.getServer().dispatchCommand(
-						TNTTag.main.getServer().getConsoleSender(),
-						s.replace("{player}", player.getName()));
+				Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), s.replace("{player}", player.getName()));
 			}
 		}
 	}

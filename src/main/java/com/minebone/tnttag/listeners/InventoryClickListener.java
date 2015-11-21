@@ -5,13 +5,20 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-import com.minebone.tnttag.managers.ArenaManager;
+import com.minebone.tnttag.core.TNTTag;
 
 public class InventoryClickListener implements Listener {
+	
+	private TNTTag plugin;
+
+	public InventoryClickListener(TNTTag plugin) {
+		this.plugin = plugin;
+	}
+	
 	@EventHandler
 	public void InventoryMove(InventoryClickEvent e) {
 		Player player = (Player) e.getWhoClicked();
-		if (ArenaManager.getManager().isInGame(player)) {
+		if (plugin.getArenaManager().isInGame(player)) {
 			e.setCancelled(true);
 		}
 	}

@@ -14,8 +14,7 @@ public class FireworkEffectPlayer {
 	private Method nms_world_broadcastEntityEffect = null;
 	private Method firework_getHandle = null;
 
-	public void playFirework(World world, Location loc, FireworkEffect fe)
-			throws Exception {
+	public void playFirework(World world, Location loc, FireworkEffect fe) throws Exception {
 		Firework fw = (Firework) world.spawn(loc, Firework.class);
 		Object nms_world = null;
 		Object nms_firework = null;
@@ -37,7 +36,7 @@ public class FireworkEffectPlayer {
 		fw.remove();
 	}
 
-	private static Method getMethod(Class<?> cl, String method) {
+	private Method getMethod(Class<?> cl, String method) {
 		for (Method m : cl.getMethods()) {
 			if (m.getName().equals(method)) {
 				return m;
