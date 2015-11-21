@@ -1,4 +1,4 @@
-main: org.pato.tnttag.core.TNTTag
+main: com.minebone.tnttag.core.TNTTag
 version: 1.2.2
 name: TNTTag
 commands:
