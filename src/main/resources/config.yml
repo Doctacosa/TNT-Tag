@@ -24,6 +24,10 @@ Speed:
 minplayers: 12
 maxplayers: 24
 usepermissions: false
+givebonus: true
+bonus:
+  RoundSurvive: 2
+  Win: 50
 signs:
   line1: '&8[&cTNT Tag&8]:'
   line2: join

@@ -94,6 +94,10 @@ public class CountdownManager {
 							int money = plugin.getFileManager().getPlayerData().getInt(player.getName() + ".money");
 							plugin.getFileManager().getPlayerData().set(player.getName() + ".money", Integer.valueOf(money + 50));
 
+							if(plugin.getConfig().getBoolean("givebonus") && plugin.getEconomy() != null) {
+								plugin.getEconomy().depositPlayer(player.getName(), plugin.getConfig().getInt("bonus.Win"));
+							}
+							
 							plugin.getMessageManager().sendNoPrefixMessage(player, Messages.getMessage(Message.coinsBonus));
 							plugin.getMessageManager().sendNoPrefixMessage(player, Messages.getMessage(Message.lineBreak));
 							Config.executeGameWinCommand(player);
@@ -166,9 +170,13 @@ public class CountdownManager {
 		plugin.getMessageManager().sendInGamePlayersMessage(Messages.getMessage(Message.roundEnded), arena);
 		for (Player player : arena.getPlayers()) {
 			Config.executeRoundWinCommand(player);
-			player.sendMessage(ChatColor.GOLD + "+2 coins!");
-			int money = plugin.getFileManager().getPlayerData().getInt(player.getName() + ".money");
-			plugin.getFileManager().getPlayerData().set(player.getName() + ".money", Integer.valueOf(money + 2));
+			int moneyAmount = plugin.getFileManager().getConfig().getInt("money.RoundSurvive");
+			player.sendMessage(ChatColor.GOLD + "+" + moneyAmount + " coins!");
+			/*int money = plugin.getFileManager().getPlayerData().getInt(player.getName() + ".money");
+			plugin.getFileManager().getPlayerData().set(player.getName() + ".money", Integer.valueOf(money + 2));*/
+			if(plugin.getConfig().getBoolean("givebonus") && plugin.getEconomy() != null) {
+				plugin.getEconomy().depositPlayer(player.getName(), moneyAmount);
+			}
 			for (PotionEffect effect : player.getActivePotionEffects()) {
 				player.removePotionEffect(effect.getType());
 			}
@@ -187,6 +195,9 @@ public class CountdownManager {
 
 		for (Player player : arena.getTNTPlayers()) {
 			plugin.getMessageManager().sendInGamePlayersMessage(Messages.getMessage(Message.playerIsIt).replace("{player}", player.getName()), arena);
+			if(!arena.getTNTPlayers().contains(player)) {
+				player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 2147483647, Config.getSpeed(Config.PlayerType.Player).intValue()));
+			}
 		}
 	}
 
