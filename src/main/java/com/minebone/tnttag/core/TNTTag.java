@@ -13,7 +13,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import com.minebone.tnttag.managers.ArenaManager;
 import com.minebone.tnttag.managers.CommandManager;
@@ -97,7 +96,7 @@ public class TNTTag extends JavaPlugin {
 		ListenerManager.registerEvents(this);
 		getCommand("tnttag").setExecutor(commandManager);
 		getCommand("tag").setExecutor(commandManager);
-		getServer().getScheduler().runTaskAsynchronously(this, new BukkitRunnable() {
+		getServer().getScheduler().runTaskAsynchronously(this, new Runnable() {
 			public void run() {
 				checkUpdate();
 			}

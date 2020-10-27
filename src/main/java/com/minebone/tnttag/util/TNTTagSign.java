@@ -42,7 +42,7 @@ public class TNTTagSign {
 	public void update() {
 		World w = this.signLocation.getWorld();
 		Block b = w.getBlockAt(this.signLocation);
-		if ((b.getType() == Material.SIGN_POST) || (b.getType() == Material.WALL_SIGN)) {
+		if ((b.getType() == Material.OAK_SIGN) || (b.getType() == Material.OAK_WALL_SIGN)) {
 			Sign sign = (Sign) b.getState();
 			for (int x = 0; x < 4; x++) {
 				if (getLine(Integer.valueOf(x + 1)) != null) {

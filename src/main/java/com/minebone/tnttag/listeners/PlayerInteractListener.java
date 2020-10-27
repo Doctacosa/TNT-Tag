@@ -28,7 +28,7 @@ public class PlayerInteractListener implements Listener {
 		Action action = event.getAction();
 		Player player = event.getPlayer();
 		if (action == Action.RIGHT_CLICK_BLOCK) {
-			if ((event.getClickedBlock().getType() == Material.WALL_SIGN) || (event.getClickedBlock().getType() == Material.SIGN_POST)) {
+			if ((event.getClickedBlock().getType() == Material.OAK_SIGN) || (event.getClickedBlock().getType() == Material.OAK_WALL_SIGN)) {
 				TNTTagSign sign = plugin.getSignManager().getSignAtLocation(event.getClickedBlock().getLocation());
 				if (sign != null) {
 					if (plugin.getSignManager().tempSign.containsKey(player.getName())) {
