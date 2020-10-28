@@ -131,10 +131,12 @@ public class CommandManager implements CommandExecutor {
 				}
 				showCreateHelp(sender);
 			} else {
+				/*
 				if (!(sender instanceof Player)) {
 					plugin.getMessageManager().isConsole(sender);
 					return false;
 				}
+				*/
 				for (AbstractTagCommands c : this.cmds) {
 					if ((c.getName().equalsIgnoreCase(args[0])) || (c.getAlias().equalsIgnoreCase(args[0]))) {
 						if (c.usePermissions() ? (sender.hasPermission(c.getPermission())) || (sender.hasPermission(new Permissions().all)) : !c.usePermissions()) {

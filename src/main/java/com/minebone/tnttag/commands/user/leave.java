@@ -1,5 +1,6 @@
 package com.minebone.tnttag.commands.user;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -16,9 +17,23 @@ public class leave extends AbstractTagCommands {
 	}
 
 	public void onCommand(CommandSender sender, String[] args) {
-		Player player = (Player) sender;
-		if (getArenaManager().isInGame(player)) {
-			getArenaManager().removePlayer(player);
+
+		Player target = null;
+		if (args.length >= 1) {
+			target = Bukkit.getPlayer(args[0]);
+			if (target == null) {
+				getMessageManager().sendErrorMessage(sender, "Player not found!");
+				return;
+			}
+		} else if (sender instanceof Player) {
+			target = (Player)sender;
+		} else {
+			getMessageManager().sendErrorMessage(sender, "Player not found!");
+			return;
+		}
+
+		if (getArenaManager().isInGame(target)) {
+			getArenaManager().removePlayer(target);
 			return;
 		}
 

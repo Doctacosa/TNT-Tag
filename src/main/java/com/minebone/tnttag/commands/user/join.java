@@ -1,5 +1,6 @@
 package com.minebone.tnttag.commands.user;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -17,7 +18,7 @@ public class join extends AbstractTagCommands {
 	}
 
 	public void onCommand(CommandSender sender, String[] args) {
-		Player player = (Player) sender;
+		
 		if (args.length == 0) {
 			getMessageManager().sendInsuficientArgs(sender, "join", "<ArenaName>");
 			StringBuilder arenaNames = new StringBuilder(Messages.getMessage(Message.availableArenas));
@@ -31,9 +32,23 @@ public class join extends AbstractTagCommands {
 			return;
 		}
 
+		Player target = null;
+		if (args.length >= 2) {
+			target = Bukkit.getPlayer(args[1]);
+			if (target == null) {
+				getMessageManager().sendErrorMessage(sender, "Player not found!");
+				return;
+			}
+		} else if (sender instanceof Player) {
+			target = (Player)sender;
+		} else {
+			getMessageManager().sendErrorMessage(sender, "Player not found!");
+			return;
+		}
+
 		String arenaName = args[0];
-		if (!getArenaManager().isInGame(player)) {
-			getArenaManager().addPlayers(player, arenaName);
+		if (!getArenaManager().isInGame(target)) {
+			getArenaManager().addPlayers(target, arenaName);
 			return;
 		}
 
