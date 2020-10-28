@@ -25,11 +25,15 @@ public class CountdownManager {
 	private TNTTag plugin;
 	private Arena arena;
 	private List<Integer> timesToBroadcast;
+	private Material useBlock;
 
 	public CountdownManager(TNTTag plugin, Arena arena) {
 		this.plugin = plugin;
 		this.arena = arena;
 		this.timesToBroadcast = plugin.getFileManager().getConfig().getIntegerList("BroadcastTimes");
+		this.useBlock = Material.getMaterial(plugin.getFileManager().getConfig().getString("UseBlock"));
+		if (this.useBlock == null)
+			this.useBlock = Material.TNT;
 	}
 
 	public void startGame(int seconds1) {
@@ -216,8 +220,8 @@ public class CountdownManager {
 		arena.getAlivePlayers().remove(players[randomInt]);
 		if (players[randomInt] != null) {
 			Player player = players[randomInt];
-			player.getInventory().setHelmet(new ItemStack(Material.TNT, 1));
-			player.getInventory().setItem(0, new ItemStack(Material.TNT, 1));
+			player.getInventory().setHelmet(new ItemStack(useBlock, 1));
+			player.getInventory().setItem(0, new ItemStack(useBlock, 1));
 			for (PotionEffect effect : player.getActivePotionEffects()) {
 				player.removePotionEffect(effect.getType());
 			}

@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -43,6 +44,7 @@ public class Config {
 		config.addDefault("RoundWinCommands", Arrays.asList(roundWinCommands));
 		config.addDefault("GameWinCommand", Boolean.valueOf(false));
 		config.addDefault("GameWinCommands", Arrays.asList(gameWinCommands));
+		config.addDefault("UseBlock", String.valueOf(Material.TNT));
 		getConfig().options().copyDefaults(true);
 		save();
 	}

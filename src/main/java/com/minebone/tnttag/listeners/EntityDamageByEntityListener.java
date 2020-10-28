@@ -24,9 +24,13 @@ public class EntityDamageByEntityListener implements Listener {
 
 	FireworkEffectPlayer fplayer = new FireworkEffectPlayer();
 	private TNTTag plugin;
+	private Material useBlock;
 
 	public EntityDamageByEntityListener(TNTTag plugin) {
 		this.plugin = plugin;
+		this.useBlock = Material.getMaterial(plugin.getFileManager().getConfig().getString("UseBlock"));
+		if (this.useBlock == null)
+			this.useBlock = Material.TNT;
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL)
@@ -60,11 +64,11 @@ public class EntityDamageByEntityListener implements Listener {
 					victim.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 2147483647, Config.getSpeed(Config.PlayerType.TNT).intValue()));
 					damager.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 2147483647, Config.getSpeed(Config.PlayerType.Player).intValue()));
 
-					victim.getInventory().setHelmet(new ItemStack(Material.TNT, 1));
+					victim.getInventory().setHelmet(new ItemStack(useBlock, 1));
 					damager.getInventory().setHelmet(new ItemStack(Material.AIR, 1));
 
 					damager.getInventory().setItem(0, new ItemStack(Material.AIR, 1));
-					victim.getInventory().setItem(0, new ItemStack(Material.TNT, 1));
+					victim.getInventory().setItem(0, new ItemStack(useBlock, 1));
 
 					FireworkEffect effect = FireworkEffect.builder().withColor(Color.RED).with(FireworkEffect.Type.CREEPER).build();
 					this.fplayer.playFirework(victim.getWorld(), victim.getLocation(), effect);
