@@ -178,7 +178,7 @@ public class Arena {
 
 	ScoreboardManager manager = Bukkit.getScoreboardManager();
 	Scoreboard board = this.manager.getNewScoreboard();
-	Objective objective = this.board.registerNewObjective("lives", "dummy");
+	Objective objective = this.board.registerNewObjective("lives", "dummy", "Status");
 
 	public void setBoard(Player player, int time) {
 		this.objective.setDisplaySlot(DisplaySlot.SIDEBAR);
