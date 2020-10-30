@@ -45,9 +45,11 @@ public class CommandManager implements CommandExecutor {
 		this.plugin = plugin;
 		this.cmds.add(new join(plugin));
 		this.cmds.add(new leave(plugin));
-		this.cmds.add(new coins(plugin));
+		if (plugin.getFileManager().getConfig().getBoolean("EnableCoins")) {
+			this.cmds.add(new coins(plugin));
+			this.cmds.add(new transfer(plugin));
+		}
 		this.cmds.add(new checkStats(plugin));
-		this.cmds.add(new transfer(plugin));
 		this.cmds.add(new listArenas(plugin));
 
 		this.adminCmds.add(new add(plugin));

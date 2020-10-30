@@ -102,8 +102,10 @@ public class CountdownManager {
 								plugin.getEconomy().depositPlayer(player.getName(), plugin.getConfig().getInt("bonus.Win"));
 							}
 							
-							plugin.getMessageManager().sendNoPrefixMessage(player, Messages.getMessage(Message.coinsBonus));
-							plugin.getMessageManager().sendNoPrefixMessage(player, Messages.getMessage(Message.lineBreak));
+							if (plugin.getFileManager().getConfig().getBoolean("EnableCoins")) {
+								plugin.getMessageManager().sendNoPrefixMessage(player, Messages.getMessage(Message.coinsBonus));
+								plugin.getMessageManager().sendNoPrefixMessage(player, Messages.getMessage(Message.lineBreak));
+							}
 							Config.executeGameWinCommand(player);
 							arena.getAlivePlayers().remove(player.getName());
 
@@ -174,13 +176,17 @@ public class CountdownManager {
 		plugin.getMessageManager().sendInGamePlayersMessage(Messages.getMessage(Message.roundEnded), arena);
 		for (Player player : arena.getPlayers()) {
 			Config.executeRoundWinCommand(player);
-			int moneyAmount = plugin.getFileManager().getConfig().getInt("money.RoundSurvive");
-			player.sendMessage(ChatColor.GOLD + "+" + moneyAmount + " coins!");
-			/*int money = plugin.getFileManager().getPlayerData().getInt(player.getName() + ".money");
-			plugin.getFileManager().getPlayerData().set(player.getName() + ".money", Integer.valueOf(money + 2));*/
-			if(plugin.getConfig().getBoolean("givebonus") && plugin.getEconomy() != null) {
-				plugin.getEconomy().depositPlayer(player.getName(), moneyAmount);
+			
+			if (plugin.getFileManager().getConfig().getBoolean("EnableCoins")) {
+				int moneyAmount = plugin.getFileManager().getConfig().getInt("money.RoundSurvive");
+				player.sendMessage(ChatColor.GOLD + "+" + moneyAmount + " coins!");
+				/*int money = plugin.getFileManager().getPlayerData().getInt(player.getName() + ".money");
+				plugin.getFileManager().getPlayerData().set(player.getName() + ".money", Integer.valueOf(money + 2));*/
+				if(plugin.getConfig().getBoolean("givebonus") && plugin.getEconomy() != null) {
+					plugin.getEconomy().depositPlayer(player.getName(), moneyAmount);
+				}
 			}
+			
 			for (PotionEffect effect : player.getActivePotionEffects()) {
 				player.removePotionEffect(effect.getType());
 			}
