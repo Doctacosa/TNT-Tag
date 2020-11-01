@@ -3,6 +3,7 @@ package com.minebone.tnttag.managers;
 import java.util.Collection;
 import java.util.HashMap;
 
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -46,30 +47,40 @@ public class InventoryManager {
 	}
 
 	public static void restoreInventory(Player player) {
-		player.getInventory().clear();
-		player.teleport((Location) locations.get(player.getName()));
-		for (PotionEffect effect : player.getActivePotionEffects()) {
-			player.removePotionEffect(effect.getType());
-		}
-		player.getInventory().setContents((ItemStack[]) inventoryContents.get(player.getName()));
-		player.getInventory().setArmorContents((ItemStack[]) armourContents.get(player.getName()));
-		player.setExp(((Float) xp.get(player.getName())).floatValue());
-		player.setLevel(((Integer) xpLevel.get(player.getName())).intValue());
-		player.setGameMode((GameMode) gameModes.get(player.getName()));
-		player.addPotionEffects((Collection<PotionEffect>) potions.get(player.getName()));
-		player.setFoodLevel(((Integer) foodLevel.get(player.getName())).intValue());
-		player.setHealth(((Double) Health.get(player.getName())).doubleValue());
-		player.setAllowFlight(((Boolean) flight.get(player.getName())).booleanValue());
+		try {
+			player.getInventory().clear();
+			player.teleport((Location) locations.get(player.getName()));
+			for (PotionEffect effect : player.getActivePotionEffects()) {
+				player.removePotionEffect(effect.getType());
+			}
+			player.getInventory().setContents((ItemStack[]) inventoryContents.get(player.getName()));
+			player.getInventory().setArmorContents((ItemStack[]) armourContents.get(player.getName()));
+			player.setExp(((Float) xp.get(player.getName())).floatValue());
+			player.setLevel(((Integer) xpLevel.get(player.getName())).intValue());
+			player.setGameMode((GameMode) gameModes.get(player.getName()));
+			player.addPotionEffects((Collection<PotionEffect>) potions.get(player.getName()));
+			player.setFoodLevel(((Integer) foodLevel.get(player.getName())).intValue());
+			player.setHealth(((Double) Health.get(player.getName())).doubleValue());
+			player.setAllowFlight(((Boolean) flight.get(player.getName())).booleanValue());
 
-		flight.remove(player.getName());
-		Health.remove(player.getName());
-		foodLevel.remove(player.getName());
-		potions.remove(player.getName());
-		xpLevel.remove(player.getName());
-		xp.remove(player.getName());
-		locations.remove(player.getName());
-		armourContents.remove(player.getName());
-		inventoryContents.remove(player.getName());
-		gameModes.remove(player.getName());
+			flight.remove(player.getName());
+			Health.remove(player.getName());
+			foodLevel.remove(player.getName());
+			potions.remove(player.getName());
+			xpLevel.remove(player.getName());
+			xp.remove(player.getName());
+			locations.remove(player.getName());
+			armourContents.remove(player.getName());
+			inventoryContents.remove(player.getName());
+			gameModes.remove(player.getName());
+		} catch (NullPointerException e) {
+			System.out.println("NULL POINTER FOR " + player.getDisplayName());
+			e.printStackTrace();
+			Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "warp " + player.getDisplayName() + " spawn");
+		} catch (IllegalArgumentException e) {
+			System.out.println("NULL POINTER FOR " + player.getDisplayName());
+			e.printStackTrace();
+			Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "warp " + player.getDisplayName() + " spawn");
+		}
 	}
 }
