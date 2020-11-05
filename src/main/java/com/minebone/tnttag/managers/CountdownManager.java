@@ -107,7 +107,7 @@ public class CountdownManager {
 								plugin.getMessageManager().sendNoPrefixMessage(player, Messages.getMessage(Message.lineBreak));
 							}
 							Config.executeGameWinCommand(player);
-							arena.getAlivePlayers().remove(player.getName());
+							arena.getAlivePlayers().remove(player);
 
 							plugin.getArenaManager().removePlayer(player);
 							if (arena.getPlayers().size() == 0) {
