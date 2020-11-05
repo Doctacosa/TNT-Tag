@@ -141,12 +141,12 @@ public class Arena {
 		for (Player player : this.players) {
 			InventoryManager.restoreInventory(player);
 
-			getPlayers().remove(player.getName());
-			if (getTNTPlayers().contains(player.getName())) {
-				getTNTPlayers().remove(player.getName());
+			getPlayers().remove(player);
+			if (getTNTPlayers().contains(player)) {
+				getTNTPlayers().remove(player);
 			}
-			if (getAlivePlayers().contains(player.getName())) {
-				getAlivePlayers().remove(player.getName());
+			if (getAlivePlayers().contains(player)) {
+				getAlivePlayers().remove(player);
 			}
 			removeBoard(player);
 			if (this.players.size() == 0) {
