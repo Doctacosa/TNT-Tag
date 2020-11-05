@@ -129,14 +129,33 @@ public class ArenaManager {
 	}
 
 	public void removeTNTPlayer(Player player) {
+		if (player == null) {
+			System.out.println("NULL PLAYER ON REMOVE");
+			return;
+		}
+
 		Arena arena = get(player);
+
+		if (arena == null) {
+			System.out.println("NULL ARENA ON REMOVE FOR " + player.getDisplayName());
+			return;
+		}
 
 		arena.getTNTPlayers().remove(player);
 		arena.getAlivePlayers().add(player);
 	}
 
 	public void addTNTPlayer(Player player) {
+		if (player == null) {
+			System.out.println("NULL PLAYER ON ADD");
+			return;
+		}
 		Arena arena = get(player);
+
+		if (arena == null) {
+			System.out.println("NULL ARENA ON ADD FOR " + player.getDisplayName());
+			return;
+		}
 
 		arena.getTNTPlayers().add(player);
 		arena.getAlivePlayers().remove(player);
