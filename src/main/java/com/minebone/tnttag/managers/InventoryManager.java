@@ -49,7 +49,13 @@ public class InventoryManager {
 	public static void restoreInventory(Player player) {
 		try {
 			player.getInventory().clear();
-			player.teleport((Location) locations.get(player.getName()));
+			
+			Location dest = locations.get(player.getName());
+			if (dest != null)
+				player.teleport((Location) dest);
+			else
+				player.teleport(player.getWorld().getSpawnLocation());
+
 			for (PotionEffect effect : player.getActivePotionEffects()) {
 				player.removePotionEffect(effect.getType());
 			}
@@ -76,11 +82,11 @@ public class InventoryManager {
 		} catch (NullPointerException e) {
 			System.out.println("NULL POINTER FOR " + player.getDisplayName());
 			e.printStackTrace();
-			Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "warp " + player.getDisplayName() + " spawn");
+			player.teleport(player.getWorld().getSpawnLocation());
 		} catch (IllegalArgumentException e) {
 			System.out.println("NULL POINTER FOR " + player.getDisplayName());
 			e.printStackTrace();
-			Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "warp " + player.getDisplayName() + " spawn");
+			player.teleport(player.getWorld().getSpawnLocation());
 		}
 	}
 }
