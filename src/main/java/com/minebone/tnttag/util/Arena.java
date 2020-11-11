@@ -149,11 +149,11 @@ public class Arena {
 				getAlivePlayers().remove(player);
 			}
 			removeBoard(player);
-			if (this.players.size() == 0) {
-				this.players.clear();
-				return;
-			}
 		}
+
+		players.clear();
+		TNTPlayers.clear();
+		AlivePlayers.clear();
 	}
 
 	public int getTaskID() {
