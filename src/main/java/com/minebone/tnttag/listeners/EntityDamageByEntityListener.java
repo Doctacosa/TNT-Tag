@@ -39,7 +39,7 @@ public class EntityDamageByEntityListener implements Listener {
 			Player damager = (Player) event.getDamager();
 			Player victim = (Player) event.getEntity();
 			if (plugin.getArenaManager().isInGame(victim)) {
-				if (plugin.getArenaManager().isTNT(damager)) {
+				if (plugin.getArenaManager().isTNT(damager) && !plugin.getArenaManager().isTNT(victim)) {
 					plugin.getArenaManager().addTNTPlayer(victim);
 					plugin.getArenaManager().removeTNTPlayer(damager);
 
