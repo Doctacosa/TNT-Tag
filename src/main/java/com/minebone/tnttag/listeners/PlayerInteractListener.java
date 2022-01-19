@@ -48,6 +48,20 @@ public class PlayerInteractListener implements Listener {
 					plugin.getSignManager().tempSign.remove(player.getName());
 				}
 				return;
+			} else if (
+				event.getClickedBlock().getType() == Material.OAK_BUTTON ||
+				event.getClickedBlock().getType() == Material.BIRCH_BUTTON ||
+				event.getClickedBlock().getType() == Material.STONE_BUTTON ||
+				event.getClickedBlock().getType() == Material.ACACIA_BUTTON ||
+				event.getClickedBlock().getType() == Material.JUNGLE_BUTTON ||
+				event.getClickedBlock().getType() == Material.SPRUCE_BUTTON ||
+				event.getClickedBlock().getType() == Material.WARPED_BUTTON ||
+				event.getClickedBlock().getType() == Material.CRIMSON_BUTTON ||
+				event.getClickedBlock().getType() == Material.DARK_OAK_BUTTON ||
+				event.getClickedBlock().getType() == Material.POLISHED_BLACKSTONE_BUTTON
+			) {
+				//Allow
+				return;
 			}
 			if (plugin.getArenaManager().isInGame(player)) {
 				event.setCancelled(true);
