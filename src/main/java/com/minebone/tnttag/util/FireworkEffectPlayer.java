@@ -2,6 +2,7 @@ package com.minebone.tnttag.util;
 
 import java.lang.reflect.Method;
 
+import org.bukkit.Bukkit;
 import org.bukkit.FireworkEffect;
 import org.bukkit.entity.Firework;
 import org.bukkit.inventory.meta.FireworkMeta;
@@ -32,7 +33,11 @@ public class FireworkEffectPlayer {
 		data.setPower(1);
 		data.addEffect(fe);
 		fw.setFireworkMeta(data);
-		nms_world_broadcastEntityEffect.invoke(nms_world, new Object[] { nms_firework, (byte) 17 });
+		try {
+			nms_world_broadcastEntityEffect.invoke(nms_world, new Object[] { nms_firework, (byte) 17 });
+		} catch (NullPointerException e) {
+			Bukkit.getLogger().warning("ERROR: Failed to broadcast firework effect.");
+		}
 		fw.remove();
 	}
 
