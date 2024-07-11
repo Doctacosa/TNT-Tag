@@ -17,6 +17,19 @@ public class FireworkEffectPlayer {
 
 	public void playFirework(World world, Location loc, FireworkEffect fe) throws Exception {
 		Firework fw = (Firework) world.spawn(loc, Firework.class);
+		FireworkMeta fwm = fw.getFireworkMeta();
+
+		fwm.clearEffects();
+		fwm.setPower(1);
+		fwm.addEffect(fe);
+		fw.setFireworkMeta(fwm);
+
+		//TODO: Make sure this fires
+		fw.detonate();
+
+		return;
+
+		/*
 		Object nms_world = null;
 		Object nms_firework = null;
 		if (world_getHandle == null) {
@@ -39,6 +52,7 @@ public class FireworkEffectPlayer {
 			Bukkit.getLogger().warning("ERROR: Failed to broadcast firework effect.");
 		}
 		fw.remove();
+		*/
 	}
 
 	private Method getMethod(Class<?> cl, String method) {
